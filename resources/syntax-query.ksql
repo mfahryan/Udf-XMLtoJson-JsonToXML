@@ -1,0 +1,15 @@
+-- syntax untuk xml ke json--
+
+CREATE STREAM xml_input_stream (xml_data STRING)
+    WITH (KAFKA_TOPIC='xml-test', VALUE_FORMAT='KAFKA');
+
+SELECT xml_data,XmlToJSON(xml_data) AS json_data
+    FROM xml_input_stream emit changes;
+
+---------------------------------------------------------------------
+-- syntax untuk json ke xml--
+CREATE STREAM json_input_stream (json_data STRING)
+    WITH (KAFKA_TOPIC='json-test', VALUE_FORMAT='KAFKA');
+
+SELECT json_data,JsonToXml(json_data) AS xml_data
+    FROM json_input_stream emit changes;
